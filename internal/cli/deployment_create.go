@@ -100,7 +100,7 @@ func (c *DeploymentCreateCommand) Run(args []string) int {
 
 			// Status Report
 			app.UI.Output("")
-			_, err = app.StatusReport(ctx, &pb.Job_StatusReportOp{ // TODO: release
+			_, err = app.StatusReport(ctx, &pb.Job_StatusReportOp{
 				Target: &pb.Job_StatusReportOp_Release{
 					Release: releaseResult.Release,
 				},
