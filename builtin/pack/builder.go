@@ -52,6 +52,9 @@ type BuilderConfig struct {
 
 	// Files patterns to prevent from being pulled into the build.
 	Ignore []string `hcl:"ignore,optional"`
+	
+	// Process type that will be used when setting container start command.
+	ProcessType string `hcl:"process_type,optional" default:"web"`
 }
 
 const DefaultBuilder = "heroku/buildpacks:18"
@@ -133,12 +136,12 @@ func (b *Builder) Build(
 		AppPath:    src.Path,
 		Env:        b.config.StaticEnvVars,
 		Buildpacks: b.config.Buildpacks,
-
 		ProjectDescriptor: project.Descriptor{
 			Build: project.Build{
 				Exclude: b.config.Ignore,
 			},
 		},
+		DefaultProcessType: b.config.ProcessType,
 	}
 
 	err = client.Build(ctx, bo)
